@@ -1,23 +1,24 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const registerSchema = new Schema({
+const userSchema = new Schema({
   mobile: String,
   age: String,
   pass: String,
+  sex:String,
 });
 
 // mongoose.model(modelName:集合名, schema);
-const RegisterModel = mongoose.model("register", registerSchema);
+const UserModel = mongoose.model("user", userSchema);
 
 
 function DidRegister(req, res) {
   const { query } = req;
-  RegisterModel.find({ mobile: query.mobile }, (err, docs) => {
+  UserModel.find({ mobile: query.mobile }, (err, docs) => {
     if (err) {
       console.log("查询注册信息失败");
     } else if (docs.length === 0) {
-      const register = new RegisterModel(query);
-      register.save((err, register) => {
+      const users = new UserModel(query);
+      users.save((err, users) => {
         if (err) {
           res.end(err);
           console.log("数据插入失败");
@@ -36,14 +37,14 @@ function DidRegister(req, res) {
 function DidLogin(req, res) {
   const { query } = req;
   const {pass,mobile} = query
-  RegisterModel.find({ mobile }, (err, docs) => {
+  UserModel.find({ mobile }, (err, docs) => {
     if (err) {
       console.log("查询注册信息失败");
     } else if (docs.length === 0) {
       res.writeHead(201, { "Content-Type": "text/html; charset=utf-8" });
       res.end("该手机号未注册!");
     } else {
-      RegisterModel.find({ mobile, pass }, (err, docs) => {
+      UserModel.find({ mobile, pass }, (err, docs) => {
         if (err) {
           console.log("查询注册信息失败");
         }

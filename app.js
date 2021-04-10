@@ -10,7 +10,8 @@ const { DidRegister,DidLogin } = require('./dataBase/did-register')  //注册集
 
 app.all("*", function (req, res, next) {
   //设置允许跨域的域名
-  res.header("Access-Control-Allow-Origin", "http://192.168.1.5:8081");
+  res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Origin", "http://192.168.1.5:8081");
   //允许的header类型
   res.header("Access-Control-Allow-Headers", "content-type");
   //跨域允许的请求方式
