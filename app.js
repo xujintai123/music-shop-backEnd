@@ -5,7 +5,7 @@ const port = 8000;
 const { dataBase } = require('./dataBase/getting-started')
 dataBase()
 //引入集合
-const { DidRegister,DidLogin } = require('./dataBase/did-register')  //注册集合
+const { DidRegister,DidLogin } = require('./dataBase/register')  //注册集合
 
 
 app.all("*", function (req, res, next) {
