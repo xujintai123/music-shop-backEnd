@@ -17,8 +17,7 @@ function AdminRegister(req, res) {
     if (err) {
       console.log("查询注册信息失败");
     } else if (docs.length === 0) {
-      const admins = new AdminModel(query);
-      admins.save((err, adminCollection) => {
+      AdminModel.create(query,(err, adminCollection) => {
         if (err) {
           res.end(err);
           console.log("数据插入失败");

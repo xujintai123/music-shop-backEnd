@@ -17,8 +17,7 @@ function UserRegister(req, res) {
     if (err) {
       console.log("查询注册信息失败");
     } else if (docs.length === 0) {
-      const users = new UserModel(query);
-      users.save((err, userCollection) => {
+      UserModel.create(query,(err, docs) => {
         if (err) {
           res.end(err);
           console.log("数据插入失败");
