@@ -9,6 +9,9 @@ const { UserRegister, UserLogin } = require('./dataBase/users-register')  //用�
 const { AdminRegister,AdminLogin } = require('./dataBase/admins-register')  //管理员注册集合
 
 
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 app.all("*", function (req, res, next) {
   //设置允许跨域的域名
   res.header("Access-Control-Allow-Origin", "*");
@@ -19,6 +22,13 @@ app.all("*", function (req, res, next) {
   if (req.method.toLowerCase() == "options") res.send(200);
   //让options尝试请求快速结束
   else next();
+});
+
+
+//测试post请求体
+app.post("/test", (req, res) => {
+  console.log(req.body);
+  res.send('hahaha')
 });
 
 //用户注册

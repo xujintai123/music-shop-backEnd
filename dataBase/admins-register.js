@@ -12,12 +12,12 @@ const AdminModel = mongoose.model("admin", adminSchema);
 
 
 function AdminRegister(req, res) {
-  const { query } = req;
-  AdminModel.find({ mobile: query.mobile }, (err, docs) => {
+  const { body } = req;
+  AdminModel.find({ mobile: body.mobile }, (err, docs) => {
     if (err) {
       console.log("查询注册信息失败");
     } else if (docs.length === 0) {
-      AdminModel.create(query,(err, adminCollection) => {
+      AdminModel.create(body,(err, adminCollection) => {
         if (err) {
           res.end(err);
           console.log("数据插入失败");
@@ -34,8 +34,8 @@ function AdminRegister(req, res) {
 }
 
 function AdminLogin(req, res) {
-  const { query } = req;
-  const {pass,mobile} = query
+  const { body } = req;
+  const {pass,mobile} = body
   AdminModel.find({ mobile }, (err, docs) => {
     if (err) {
       console.log("查询注册信息失败");

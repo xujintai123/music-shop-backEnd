@@ -12,12 +12,12 @@ const UserModel = mongoose.model("user", userSchema);
 
 
 function UserRegister(req, res) {
-  const { query } = req;
-  UserModel.find({ mobile: query.mobile }, (err, docs) => {
+  const { body } = req;
+  UserModel.find({ mobile: body.mobile }, (err, docs) => {
     if (err) {
       console.log("查询注册信息失败");
     } else if (docs.length === 0) {
-      UserModel.create(query,(err, docs) => {
+      UserModel.create(body,(err, docs) => {
         if (err) {
           res.end(err);
           console.log("数据插入失败");
@@ -34,8 +34,8 @@ function UserRegister(req, res) {
 }
 
 function UserLogin(req, res) {
-  const { query } = req;
-  const {pass,mobile} = query
+  const { body } = req;
+  const {pass,mobile} = body
   UserModel.find({ mobile }, (err, docs) => {
     if (err) {
       console.log("查询注册信息失败");
