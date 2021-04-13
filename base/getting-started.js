@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const multer=require("multer")
 const app = express();
 
 function dataBase() {
@@ -33,10 +34,40 @@ function baseOpt() {
   return app
 }
 
+function saveFile() {
+  let storage = multer.diskStorage({
+    //指定文件路径
+    destination: function (request, file, callback) {
+      //地址相对于app.post文件位置
+      callback(null, "./public/music"); // 定义文件上传路径
+    },
+    //给上传文件重命名，获取添加后缀名
+    filename: function (request, file, callback) {
+      //比如把abc.jpg分割成["abc","jpg"]
+      const fileFormat = (file.originalname).split(".")
+      callback(null,file.fieldname+"-"+Date.now()+"."+fileFormat[fileFormat.length-1])
+    },
+  });
+  
+  let upload = multer({
+    limits: {
+      fileSize: 1024 * 1000 * 10, //限制文件大小10MB
+      files: 100, //限制文件数量
+    },
+    storage: storage, // 仓库
+    fileFilter: function (request, file, cb) {
+        request.specialData = file;
+        cb(null, true); //  上传
+    },
+  });
+  return upload
+}
+
 function baseApp() {
   dataBase()
   const app = baseOpt()
-  return app
+  const upload=saveFile()
+  return { app, upload }
 }
 
 

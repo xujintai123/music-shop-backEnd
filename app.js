@@ -5,11 +5,23 @@ const { baseApp } = require('./base/getting-started')
 const { UserRegister, UserLogin } = require('./model/users-register')  //用户注册集合
 const { AdminRegister,AdminLogin } = require('./model/admins-register')  //管理员注册集合
 
-//连接数据库，跨域、post请求体相关处理代码封装
-const app= baseApp()
+//连接数据库，跨域、post请求体相关处理、数据流保存到文件系统代码封装
+const { app, upload } = baseApp()
+
+
+app.post("/music", upload.single("file"), (req, res) => {
+  console.log(req.file);
+  if (req.file !== undefined) {
+    let { path } = req.file;
+    res.send({ statusCode: 1, msg: "上传成功", data: { path } });
+  } else   {
+    res.send({ statusCode: 0, msg: "类型不支持" });
+  }
+});
+
 
 //测试post请求体
-app.post("/test", (req, res) => {
+app.post("/music", (req, res) => {
   console.log(req.body);
   res.send('hahaha')
 });
