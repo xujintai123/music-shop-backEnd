@@ -18,7 +18,8 @@ function dataBase() {
 function baseOpt() {
   app.use(express.json()); // for parsing application/json
   app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
+  app.use(express.static('public'))
+  
   app.all("*", function (req, res, next) {
     //设置允许跨域的域名
     res.header("Access-Control-Allow-Origin", "*");
@@ -43,9 +44,9 @@ function saveFile() {
     },
     //给上传文件重命名，获取添加后缀名
     filename: function (request, file, callback) {
-      //比如把abc.jpg分割成["abc","jpg"]
-      const fileFormat = (file.originalname).split(".")
-      callback(null,file.fieldname+"-"+Date.now()+"."+fileFormat[fileFormat.length-1])
+      const fileFormat = (file.originalname).split(".")  //比如把abc.jpg分割成["xxx",abc","jpg"]
+      const name=Date.now()+parseInt(Math.random()*99999) //防止多人同一微秒上传文件引起命名重复
+      callback(null,`${name}.${fileFormat[fileFormat.length-1]}`)
     },
   });
   
